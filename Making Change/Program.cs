@@ -16,38 +16,70 @@ namespace Making_Change
 			Console.Write("Money collected from customer -> ");
 			decimal cashRecvd = decimal.Parse(Console.ReadLine());
 
-			decimal change = cashRecvd - salesPrice;
+			decimal custChange = cashRecvd - salesPrice;
 
-			decimal quarters = 0, dimes = 0, nickels = 0, pennies = 0;
+			Console.WriteLine($"The customer's change is {custChange:C}");
 
-			while (change >= 0.25m)
-			{
-				quarters = Math.Truncate((change / 0.25m));
-				change = change % 0.25m;
-			}
+			Change change = new Change(custChange);
 
-			while (change >= 0.10m)
-			{
-				dimes = Math.Truncate((change / 0.10m));
-				change = change % 0.10m;
-			}
+			Console.WriteLine($"100s: {change.HundredDollarBills}");
+			Console.WriteLine($"50s: {change.FiveDollarBills}");
+			Console.WriteLine($"20s: {change.TwentyDollarBills}");
+			Console.WriteLine($"10s: {change.TenDollarBills}");
+			Console.WriteLine($"5s: {change.FiveDollarBills}");
+			Console.WriteLine($"1s: {change.DollarBills}");
+			Console.WriteLine($"Quarters: {change.Quarters}");
+			Console.WriteLine($"Dimes: {change.Dimes}");
+			Console.WriteLine($"Nickels: {change.Nickels}");
+			Console.WriteLine($"Pennies: {change.Pennies}");
 
-			while (change >= 0.05m)
-			{
-				nickels = Math.Truncate((change / 0.05m));
-				change = change % 0.05m;
-			}
+			Console.ReadKey();
+		}
+	}
 
-			while (change >= 0.01m)
-			{
-				pennies = Math.Truncate((change / 0.01m));
-				change = change % 0.01m;
-			}
+	public class Change
+	{
+		public int HundredDollarBills { get; }
+		public int FiftyDollarBills { get; }
+		public int TwentyDollarBills { get; }
+		public int TenDollarBills { get; }
+		public int FiveDollarBills { get; }
+		public int DollarBills { get; }
+		public int Quarters { get; }
+		public int Dimes { get; }
+		public int Nickels { get; }
+		public int Pennies { get; }
 
-			Console.WriteLine("{0} quarters, {1} dimes, {2} nickels, {3} pennies", quarters,
-				dimes, nickels, pennies);
+		public Change(decimal price)
+		{
+			HundredDollarBills = (int)(price / 100);
+			price %= 100;
 
-			Console.ReadLine();
+			FiftyDollarBills = (int)(price / 50);
+			price %= 50;
+
+			TwentyDollarBills = (int)(price / 20);
+			price %= 20;
+
+			TenDollarBills = (int)(price / 10);
+			price %= 10;
+
+			FiveDollarBills = (int)(price / 5);
+			price %= 5;
+
+			DollarBills = (int)(price / 1);
+			price %= 1;
+
+			Quarters = (int)(price / .25m);
+			price %= .25m;
+
+			Dimes = (int)(price / .10m);
+			price %= .10m;
+
+			Nickels = (int)(price / .05m);
+			price %= .05m;
+
+			Pennies = (int)(price / .01m);
 		}
 	}
 }
